@@ -31,6 +31,23 @@ struct Arvore_Binaria
         }
         
     }
+
+    bool Buscar(No* no, int chave){
+        if (no == nullptr){
+            return false;
+        }
+        else if (no->chave < chave){
+            Buscar(no->sucessor,chave);
+        }
+        else if (no->chave > chave){
+            Buscar(no->antecessor,chave);
+        }
+        else{
+            return true;
+        }
+        
+    }
+
 };
 
 int main(){
@@ -46,5 +63,14 @@ int main(){
     if (arv.raiz->sucessor != nullptr){
         cout << " Sucessor: " << arv.raiz->sucessor->chave;
     }
+
+    if(arv.Buscar(arv.raiz,50)){
+        cout << "\nencontrado";
+    }else{
+        cout << "\nnao encontrado";
+    }
+
+    //implementaçoes avl
+
     return 0;
 }
