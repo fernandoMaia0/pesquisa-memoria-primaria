@@ -79,6 +79,7 @@ struct Arvore_Avl
         if(no->valorBalanceamento == 2){
             if (no->sucessor->valorBalanceamento >= 0)
             {
+                
                 FazRotacao(no, 'E');
             }else{
                 FazRotacao(no->sucessor, 'D');
@@ -86,11 +87,12 @@ struct Arvore_Avl
             }
             
         }else if(no->valorBalanceamento == -2){
-            if (no->sucessor->valorBalanceamento >= 0)
+            if (no->antecessor->valorBalanceamento >= 0)
             {
+                FazRotacao(no->antecessor, 'E');
                 FazRotacao(no, 'D');
             }else{
-                FazRotacao(no->sucessor, 'E');
+
                 FazRotacao(no, 'D');
             }
         }
@@ -129,6 +131,7 @@ struct Arvore_Avl
                 no = filho_dir;
             }
         }
+
     }
 };
 
@@ -136,26 +139,26 @@ int main(){
     Arvore_Avl arv;
 
     arv.Iniciar();
-    arv.raiz->registro.chave = 5;
-    arv.Inserir(arv.raiz, 92);
-arv.Inserir(arv.raiz, 51);
-arv.Inserir(arv.raiz, 52);
-arv.Inserir(arv.raiz, 22);
-arv.Inserir(arv.raiz, 54);
-arv.Inserir(arv.raiz, 57);
-arv.Inserir(arv.raiz, 3);
-arv.Inserir(arv.raiz, 5);
-arv.Inserir(arv.raiz, 1);
-arv.Inserir(arv.raiz, 4);
-arv.Inserir(arv.raiz, 61);
-arv.Inserir(arv.raiz, 63);
-arv.Inserir(arv.raiz, 37);
-arv.Inserir(arv.raiz, 75);
-arv.Inserir(arv.raiz, 11);
-arv.Inserir(arv.raiz, 44);
-arv.Inserir(arv.raiz, 25);
-arv.Inserir(arv.raiz, 12);
-arv.Inserir(arv.raiz, 10);
+    arv.raiz->registro.chave = 92;
+
+    arv.Inserir(arv.raiz, 51);
+    arv.Inserir(arv.raiz, 52);
+    arv.Inserir(arv.raiz, 22);
+    arv.Inserir(arv.raiz, 54);
+    arv.Inserir(arv.raiz, 57);
+    arv.Inserir(arv.raiz, 3);
+    arv.Inserir(arv.raiz, 5);
+    arv.Inserir(arv.raiz, 1);
+    arv.Inserir(arv.raiz, 4);
+    arv.Inserir(arv.raiz, 61);
+    arv.Inserir(arv.raiz, 63);
+    arv.Inserir(arv.raiz, 37);
+    arv.Inserir(arv.raiz, 75);
+    arv.Inserir(arv.raiz, 11);
+    arv.Inserir(arv.raiz, 44);
+    arv.Inserir(arv.raiz, 25);
+    arv.Inserir(arv.raiz, 12);
+    arv.Inserir(arv.raiz, 10);
 
 return 0;
 }
