@@ -1,164 +1,191 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <ctime>
+#include <cstring>
+#include <iomanip>
+#include <chrono>
 using namespace std;
 
-struct Tipo_reg
-{
+struct Tiporeg {
     int chave;
     int dado1;
-    char dado2[1000]; 
+    char dado2[1000];
 };
 
-
-struct No
-{
-    Tipo_reg registro;
-    No* antecessor;
-    No* sucessor;
-    int valorBalanceamento;
+struct No {
+    Tiporeg registro;
+    No* esquerda;
+    No* direita;
+    int altura;
 };
 
-struct Arvore_Avl
-{
+int altura(No* no) {
+    if (no == nullptr) return 0;
+    return no->altura;
+}
+
+int maximo(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+No* novoNo(Tiporeg pRegistro) {
+    No* no = new No();
+    no->registro = pRegistro;
+    no->esquerda = nullptr;
+    no->direita = nullptr;
+    no->altura = 1;
+    return no;
+}
+
+struct Arvore_avl {
     No* raiz;
 
-    void Iniciar(){
-        raiz = new No; // Inicialize raiz como nullptr
-        raiz->antecessor = nullptr;
-        raiz->sucessor = nullptr;
+    No* rotacaoDireita(No* y) {
+        No* x = y->esquerda;
+        No* T = x->direita;
+
+        x->direita = y;
+        y->esquerda = T;
+
+        y->altura = maximo(altura(y->esquerda), altura(y->direita)) + 1;
+        x->altura = maximo(altura(x->esquerda), altura(x->direita)) + 1;
+
+        return x;
     }
 
-    void Inserir(No* & no, int chave){ 
-        if (no == nullptr){
-            no = new No;
-            no->registro.chave = chave;
-            no->sucessor = nullptr;
-            no->antecessor = nullptr;
-        }else if (no->registro.chave > chave){
-            Inserir(no->antecessor, chave);
-            setValorBalanceamento(no);
-            VerificaRotacao(no);
-        }else if (no->registro.chave < chave){
-            Inserir(no->sucessor, chave);
-            setValorBalanceamento(no);
-            VerificaRotacao(no);
+    No* rotacaoEsquerda(No* x) {
+        No* y = x->direita;
+        No* T = y->esquerda;
+
+        y->esquerda = x;
+        x->direita = T;
+
+        x->altura = maximo(altura(x->esquerda), altura(x->direita)) + 1;
+        y->altura = maximo(altura(y->esquerda), altura(y->direita)) + 1;
+
+        return y;
+    }
+
+    int fatorBalanceamento(No* no) {
+        if (no == nullptr) return 0;
+        return altura(no->esquerda) - altura(no->direita);
+    }
+
+    No* inserir(No* no, Tiporeg registro) {
+        if (no == nullptr) return novoNo(registro);
+
+        if (registro.chave < no->registro.chave)
+            no->esquerda = inserir(no->esquerda, registro);
+        else if (registro.chave > no->registro.chave)
+            no->direita = inserir(no->direita, registro);
+        else
+            return no;
+
+        no->altura = 1 + maximo(altura(no->esquerda), altura(no->direita));
+
+        int balance = fatorBalanceamento(no);
+
+        if (balance > 1 && registro.chave < no->esquerda->registro.chave)
+            return rotacaoDireita(no);
+
+        if (balance < -1 && registro.chave > no->direita->registro.chave)
+            return rotacaoEsquerda(no);
+
+        if (balance > 1 && registro.chave > no->esquerda->registro.chave) {
+            no->esquerda = rotacaoEsquerda(no->esquerda);
+            return rotacaoDireita(no);
         }
-        
+
+        if (balance < -1 && registro.chave < no->direita->registro.chave) {
+            no->direita = rotacaoDireita(no->direita);
+            return rotacaoEsquerda(no);
+        }
+
+        return no;
     }
 
-    bool Buscar(No* no, int chave){
-        if (no == nullptr){
+    bool Buscar(No* no, int chave) {
+        if (no == nullptr) {
             return false;
         }
-        else if (no->registro.chave < chave){
-            Buscar(no->sucessor,chave);
-        }
-        else if (no->registro.chave > chave){
-            Buscar(no->antecessor,chave);
-        }
-        else{
+        else if (chave < no->registro.chave)
+            return Buscar(no->esquerda, chave);
+        else if (chave > no->registro.chave)
+            return Buscar(no->direita, chave);
+        else
             return true;
-        }
-        
-    }
-
-    void setValorBalanceamento(No*& no) {
-        int alturaEsq = altura(no->antecessor);
-        int alturaDir = altura(no->sucessor);
-        no->valorBalanceamento = alturaDir - alturaEsq;
-    }
-
-    int altura(No* no) {
-        if (no == nullptr) {
-            return 0;
-        }
-        return 1 + max(altura(no->antecessor), altura(no->sucessor));
-    }
-
-    void VerificaRotacao(No*& no){
-        
-        if(no->valorBalanceamento == 2){
-            if (no->sucessor->valorBalanceamento >= 0)
-            {
-                
-                FazRotacao(no, 'E');
-            }else{
-                FazRotacao(no->sucessor, 'D');
-                FazRotacao(no, 'E');
-            }
-            
-        }else if(no->valorBalanceamento == -2){
-            if (no->antecessor->valorBalanceamento >= 0)
-            {
-                FazRotacao(no->antecessor, 'E');
-                FazRotacao(no, 'D');
-            }else{
-
-                FazRotacao(no, 'D');
-            }
-        }
-    }
-    
-    void FazRotacao(No*& no, char direcao) {
-        No* aux = no;
-        No* filho_esq = nullptr;
-        No* filho_dir = nullptr;
-
-        if (no->sucessor != nullptr) {
-            filho_dir = no->sucessor;
-        }
-        if (no->antecessor != nullptr) {
-            filho_esq = no->antecessor;
-        }
-
-        if (direcao == 'D') {
-        // Rotação para a direita
-            if (no->antecessor != nullptr) {
-                no->antecessor = filho_esq->sucessor;
-                if (filho_esq->sucessor != nullptr) {
-                    filho_esq->sucessor->antecessor = no;
-                }
-                filho_esq->sucessor = no;
-                no = filho_esq;
-        }
-        } else {
-        // Rotação para a esquerda
-            if (no->sucessor != nullptr) {
-                no->sucessor = filho_dir->antecessor;
-                if (filho_dir->antecessor != nullptr) {
-                    filho_dir->antecessor->sucessor = no;
-                }
-                filho_dir->antecessor = no;
-                no = filho_dir;
-            }
-        }
-
     }
 };
 
-int main(){
-    Arvore_Avl arv;
+Tiporeg retornaTipoReg(string s) {
+    Tiporeg aux;
+    string auxS = s;
 
-    arv.Iniciar();
-    arv.raiz->registro.chave = 92;
+    string delimiter = ";";
+    int pos = s.find(delimiter);
 
-    arv.Inserir(arv.raiz, 51);
-    arv.Inserir(arv.raiz, 52);
-    arv.Inserir(arv.raiz, 22);
-    arv.Inserir(arv.raiz, 54);
-    arv.Inserir(arv.raiz, 57);
-    arv.Inserir(arv.raiz, 3);
-    arv.Inserir(arv.raiz, 5);
-    arv.Inserir(arv.raiz, 1);
-    arv.Inserir(arv.raiz, 4);
-    arv.Inserir(arv.raiz, 61);
-    arv.Inserir(arv.raiz, 63);
-    arv.Inserir(arv.raiz, 37);
-    arv.Inserir(arv.raiz, 75);
-    arv.Inserir(arv.raiz, 11);
-    arv.Inserir(arv.raiz, 44);
-    arv.Inserir(arv.raiz, 25);
-    arv.Inserir(arv.raiz, 12);
-    arv.Inserir(arv.raiz, 10);
+    aux.chave = stoi(s.substr(0, pos));
+    aux.dado1 = stoi(s.substr(pos + 1, s.length()));
+    pos = s.find(delimiter, pos + 1);
+    auxS = s.substr(pos + 1, s.length());
 
-return 0;
+    strcpy(aux.dado2, auxS.c_str());
+
+    return aux;
+}
+
+int main() {
+    Arvore_avl arv;
+    string linha;
+    Tiporeg registro_temp;
+
+    arv.raiz = nullptr;
+
+    ifstream arquivo("dadosDesordenados10000.txt");
+
+    if (!arquivo.is_open()) {
+        cerr << "Erro ao abrir o arquivo." << endl;
+        return 1;
+    }
+
+    while (getline(arquivo, linha)) {
+        string s = linha;
+        if (s != "") {
+            registro_temp = retornaTipoReg(s);
+            arv.raiz = arv.inserir(arv.raiz, registro_temp);
+        }
+    }
+
+    arquivo.close();
+
+    int chaveParaEncontrarNaArvore = 9000;
+    int chaveNaoNaArvore = 10001;
+
+    auto start_time = chrono::high_resolution_clock::now();
+    bool resultadoChaveEncontrada = arv.Buscar(arv.raiz, chaveParaEncontrarNaArvore);
+    auto end_time = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed_time = end_time - start_time;
+
+    if (resultadoChaveEncontrada) {
+        cout << "Chave encontrada na árvore. Tempo de busca: " << elapsed_time.count() << " segundos." << endl;
+    }
+    else {
+        cout << "Chave não encontrada na árvore. Tempo de busca: " << elapsed_time.count() << " segundos." << endl;
+    }
+
+    start_time = chrono::high_resolution_clock::now();
+    bool resultadoChaveNaoNaArvore = arv.Buscar(arv.raiz, chaveNaoNaArvore);
+    end_time = chrono::high_resolution_clock::now();
+    elapsed_time = end_time - start_time;
+
+    if (resultadoChaveNaoNaArvore) {
+        cout << "Chave (não existente) encontrada na árvore. Tempo de busca: " << elapsed_time.count() << " segundos." << endl;
+    }
+    else {
+        cout << "Chave (não existente) não encontrada na árvore. Tempo de busca: " << elapsed_time.count() << " segundos." << endl;
+    }
+
+    return 0;
 }
