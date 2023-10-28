@@ -1,0 +1,30 @@
+Chave encontrada na árvore. Tempo de busca: 0.000003795 segundos. Interações: 227
+Chave encontrada na árvore. Tempo de busca: 0.000010422 segundos. Interações: 618
+Chave encontrada na árvore. Tempo de busca: 0.000011639 segundos. Interações: 689
+Chave encontrada na árvore. Tempo de busca: 0.000001388 segundos. Interações: 80
+Chave encontrada na árvore. Tempo de busca: 0.000001826 segundos. Interações: 108
+Chave encontrada na árvore. Tempo de busca: 0.000001437 segundos. Interações: 85
+Chave encontrada na árvore. Tempo de busca: 0.000002384 segundos. Interações: 146
+Chave encontrada na árvore. Tempo de busca: 0.000005172 segundos. Interações: 315
+Chave encontrada na árvore. Tempo de busca: 0.000008670 segundos. Interações: 513
+Chave encontrada na árvore. Tempo de busca: 0.000007281 segundos. Interações: 527
+Chave encontrada na árvore. Tempo de busca: 0.000014323 segundos. Interações: 983
+Chave encontrada na árvore. Tempo de busca: 0.000001834 segundos. Interações: 112
+Chave encontrada na árvore. Tempo de busca: 0.000004284 segundos. Interações: 315
+Chave encontrada na árvore. Tempo de busca: 0.000003454 segundos. Interações: 211
+Chave encontrada na árvore. Tempo de busca: 0.000004480 segundos. Interações: 273
+Chave não encontrada na árvore. Tempo de busca: 0.000016733 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016987 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016516 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016248 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016240 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016187 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000014774 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016252 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000015301 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016165 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016217 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016155 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000015832 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016097 segundos. Interações: 1000
+Chave não encontrada na árvore. Tempo de busca: 0.000016227 segundos. Interações: 1000
