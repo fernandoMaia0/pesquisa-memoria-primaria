@@ -135,7 +135,7 @@ int main() {
     arv.raiz = nullptr;
 
     // para especificar o nome do arquivo que vai ser aberto
-    nomeArquivo = "dadosDesordenados5000.txt";
+    nomeArquivo = "dadosOrdenados500.txt";
 
     ifstream arquivo("Arquivos Entrada/"+nomeArquivo);
 
@@ -183,14 +183,14 @@ int main() {
         if (resultadoChaveEncontrada) {
             if(totalPresente <= 15){
                 // Formata a mensagem e armazena no vetor de chaves encontradas
-                sprintf(buffer, "Chave encontrada na árvore. Tempo de busca: %.9f segundos. Interações: %d", elapsed_time.count(), arv.numero_interacoes);
+                sprintf(buffer, "Chave (%.6d) encontrada na árvore. Tempo de busca: %.9f segundos. Interações: %d", chaveAleatoria,elapsed_time.count(), arv.numero_interacoes);
                 vetorEncontradas[totalPresente-1] = buffer;
                 totalPresente++;
             }
         } else {
             if(totalAusente <= 15){
                 // Formata a mensagem e armazena no vetor de chaves não encontradas
-                sprintf(buffer, "Chave não encontrada na árvore. Tempo de busca: %.9f segundos. Interações: %d", elapsed_time.count(), arv.numero_interacoes);
+                sprintf(buffer, "Chave (%.6d) não encontrada na árvore. Tempo de busca: %.9f segundos. Interações: %d", chaveAleatoria ,elapsed_time.count(), arv.numero_interacoes);
                 vetorNaoEncontradas[totalAusente-1] = buffer;
                 totalAusente++;
             }
